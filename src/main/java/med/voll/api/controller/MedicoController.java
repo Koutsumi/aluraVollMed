@@ -34,6 +34,8 @@ public class MedicoController {
 
     @GetMapping
     public ResponseEntity <Page<DadosListagemMedico>> listar(@PageableDefault(size=10, sort= {"nome"}, page=0) Pageable paginacao){
+
+
         var page = repository.findAllByAtivoTrue(paginacao).map(DadosListagemMedico::new);
         return ResponseEntity.ok(page);
     }
@@ -46,6 +48,7 @@ public class MedicoController {
 
     @PutMapping
     @Transactional
+    //@Secured("ROLE_ADMIN") controla a permissao com roles
     public ResponseEntity atualizar(@RequestBody @Valid DadosAtulizacaoMedico dados){
         var medico = repository.getReferenceById(dados.id());
         medico.atualizarInformacoes(dados);
