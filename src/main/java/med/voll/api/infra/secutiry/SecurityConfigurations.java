@@ -27,11 +27,13 @@ public class SecurityConfigurations {
         return http.csrf().disable().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and().authorizeHttpRequests()
                 .requestMatchers(HttpMethod.POST, "/login").permitAll() // n verifica a autenticacao para o metedo post de login
-                //.requestMatchers(HttpMethod.DELETE, "/medicos").hasRole("ADMIN")
-                //.requestMatchers(HttpMethod.DELETE, "/pacientes").hasRole("ADMIN")
+                .requestMatchers("/v3/api-docs/**", "/swagger-ui.html", "/swagger-ui/**").permitAll()
                 .anyRequest().authenticated()
                 .and().addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
+                //.requestMatchers(HttpMethod.DELETE, "/medicos").hasRole("ADMIN")
+                //.requestMatchers(HttpMethod.DELETE, "/pacientes").hasRole("ADMIN")
+
     }
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration configuration) throws Exception{
